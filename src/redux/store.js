@@ -1,10 +1,9 @@
 import {createStore, combineReducers} from 'redux';
 import addTodoTask from './reducers/AddTodoReducer';
-import filetersTodoTask from './reducers/FilterTodoTask.js';
+// import filtersTodoTask from './reducers/FilterTodoReducer.js';
 
 const reducers = combineReducers({
-    addTodoTask,
-    filetersTodoTask
+    addTodoTask
 })
 
 const store = createStore(reducers);

@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
 }
@@ -25,6 +28,58 @@
 
 .done {
   text-decoration: line-through;
+}
+
+.App span {
+  cursor: pointer;
+}
+.task_list {
+  display: block
+}
+.task_item,
+.add_todo_wrap {
+  width: 300px;
+  margin: 10px auto;
+  text-align: left
+}
+.filter {
+  margin: 15px;
+}
+.filter.active {
+  color: blueviolet;
+  pointer-events: none;
+}
+.edit,
+.delete {
+  margin: 0 15px;
+}
+.delete {
+  color: red;
+  margin-left: 0;
+}
+.edit {
+  color: green;
+}
+
+input {
+  line-height: 38px;
+  border: none;
+  outline: none;
+  background: #282c34;
+  border-bottom: 3px solid lightseagreen;
+  color: white;
+  font-size: 16px;
+  padding: 0 10px;
+}
+button {
+  background: lightseagreen;
+  line-height: 38px;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 1px;
+  font-size: 15px;
+  margin-bottom: -2px;
 }
 
 @keyframes App-logo-spin {

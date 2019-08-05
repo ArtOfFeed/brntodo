@@ -12,7 +12,6 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         onFilter: (filter_type) => {
-            console.log(filter_type);
             dispatch(onFilterAC(filter_type))
         }
     }

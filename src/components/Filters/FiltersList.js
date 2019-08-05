@@ -6,6 +6,7 @@ const FiltersList = (props) => {
     let filters = Filters.map((filter, i) => <FilterLink 
         key={'filt' + i}
         name={filter.val}
+        filter={props.filter}
         filterType={filter.type}
         onFilter={props.onFilter} />)
     return (

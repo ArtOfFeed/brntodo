@@ -1,0 +1,9 @@
+export const ADD_TASK = 'ADD_TASK';
+export const TYPED_TASK = 'TYPED_TASK';
+export const TOGGLE_TASK = 'TOGGLE_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
+export const EDIT_TASK = 'EDIT_TASK';
+export const EDITING_TASK = 'EDITING_TASK';
+export const SAVE_TASK = 'SAVE_TASK';
+export const FILTERING = 'FILTERING';
+export const SHOW_ALL = 'SHOW_ALL';

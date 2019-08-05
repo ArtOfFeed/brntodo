@@ -5,7 +5,8 @@ import {toggleTodoAC, deleteTodoAC, editTodoAC, editingTodoAC, onSaveEditAC} fro
 let mapStateToProps = (state) => {
     return {
         todos: state.addTodoTask.todos,
-        msg: state.addTodoTask.msg
+        msg: state.addTodoTask.msg,
+        result: state.addTodoTask.result
     }
 }
 

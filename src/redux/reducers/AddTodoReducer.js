@@ -1,14 +1,15 @@
-const ADD_TASK = 'ADD_TASK';
-const TYPED_TASK = 'TYPED_TASK';
-const TOGGLE_TASK = 'TOGGLE_TASK';
-const DELETE_TASK = 'DELETE_TASK';
-const EDIT_TASK = 'EDIT_TASK';
-const EDITING_TASK = 'EDITING_TASK';
-const SAVE_TASK = 'SAVE_TASK';
-const FILTERING = 'FILTERING';
-const SHOW_ALL = 'SHOW_ALL';
-const SHOW_ACTIVE = 'SHOW_ACTIVE';
-const SHOW_INACTIVE = 'SHOW_INACTIVE';
+import {applyFiltersTodo} from './FilterTodoReducer';
+import {
+    ADD_TASK,
+    TYPED_TASK,
+    TOGGLE_TASK,
+    DELETE_TASK,
+    EDIT_TASK,
+    EDITING_TASK,
+    SAVE_TASK,
+    FILTERING,
+    SHOW_ALL
+} from '../actions/actions';
 
 let taskId = 0;
 
@@ -16,26 +17,36 @@ let initialState = {
     todos: [],
     text: '',
     msg: '',
-    filter: SHOW_ALL
+    filter: SHOW_ALL,
+    result: []
 }
 
 const AddTodoReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TASK:
             let messageText = state.text;
-            state.text = '';
-            return {
-                ...state,
-                todos: [
-                    ...state.todos,
+            if (messageText !== '') {
+                let copyAddedArr = [
+                     ...state.todos,
                     {
-                        id: action.id,
+                        id: taskId++,
                         message: messageText,
                         completed: false,
                         editing: false,
                         edit_value: ''
                     }
                 ]
+                state.text = '';
+                
+                return {
+                    ...state,
+                    todos: copyAddedArr,
+                    result: applyFiltersTodo(copyAddedArr, state.filter)
+                }
+            } else {
+                return {
+                    ...state
+                }
             }
         case TYPED_TASK:
             return {
@@ -51,7 +62,8 @@ const AddTodoReducer = (state = initialState, action) => {
             })
             return {
                 ...state,
-                todos: copyToggledArr
+                todos: copyToggledArr,
+                result: applyFiltersTodo(copyToggledArr, state.filter)
             }
         case DELETE_TASK:
             let copyDeletedArr = state.todos.filter((todo) => {
@@ -61,7 +73,8 @@ const AddTodoReducer = (state = initialState, action) => {
             })
             return {
                 ...state,
-                todos: copyDeletedArr
+                todos: copyDeletedArr,
+                result: applyFiltersTodo(copyDeletedArr, state.filter)
             }
         case EDIT_TASK:
             let copyMsg;
@@ -75,6 +88,7 @@ const AddTodoReducer = (state = initialState, action) => {
             return {
                 ...state,
                 todos: copyEditedArr,
+                result: applyFiltersTodo(copyEditedArr, state.filter),
                 msg: copyMsg
             }
         case EDITING_TASK:
@@ -94,33 +108,14 @@ const AddTodoReducer = (state = initialState, action) => {
             })
             return {
                 ...state,
-                todos: copySavedArr
+                todos: copySavedArr,
+                result: applyFiltersTodo(copySavedArr, state.filter)
             }
         case FILTERING:
-            let copyFilterArr;
-            switch (action.filter_type) {
-                case SHOW_ALL:
-                    return {
-                        ...state,
-                    }
-                case SHOW_ACTIVE: {
-                    copyFilterArr = state.todos.filter((todo) => (todo.completed))
-                    return {
-                        ...state,
-                        todos: copyFilterArr
-                    }
-                }
-                case SHOW_INACTIVE: {
-                    copyFilterArr = state.todos.filter((todo) => (!todo.completed))
-                    return {
-                        ...state,
-                        todos: copyFilterArr
-                    }
-                }
-                default:
-                    return {
-                        ...state,
-                    }
+            return {
+                ...state,
+                filter: action.filter_type,
+                result: applyFiltersTodo(state.todos, action.filter_type)
             }
         default:
             return state;
@@ -128,8 +123,7 @@ const AddTodoReducer = (state = initialState, action) => {
 }
 
 export const addTodoAC = () => ({
-    type: ADD_TASK,
-    id: taskId++,
+    type: ADD_TASK
 });
 
 export const typedTaskAC = (text) => ({
